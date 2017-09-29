@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Getting stated</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../lib/base.css">
+	<script src="../lib/jquery-3.2.1.min.js"></script>
+	<script src="../lib/ace/js/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="../lib/vue.js"></script>
+</head>
+<body>
+	================================1=====================================
+	<h1> Ví dụ 1 (khai báo đơn giản) </h1>
+	<div class="mrl-70">
+		<div id="app">
+			{{ message }}
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: '#app',
+				data: {
+					message: 'Hello Vue, I learning you :3'
+				}
+			})
+		</script>
+		<div class="comment-info">
+			<p>Cú pháp để khai báo 1 giá trị và in ra màn hình</p>
+		</div>
+		<div class="editor vd1"></div>
+	</div>
+
+	================================2=====================================
+	<h1> Ví dụ 2 (khai báo đơn giản nâng cấp vd1: v-bind:title="..." bind ra title) </h1>
+	<div class="mrl-70">
+		<div id="app-2">
+			<span v-bind:title="message">
+				Hover your mouse over me for a few seconds
+				to see my dynamically bound title!
+			</span>
+		</div>
+		<script>
+			var app2 = new Vue({
+				el: '#app-2',
+				data: {
+					message: 'You loaded this page on ' + new Date().toLocaleString()
+				}
+			})
+		</script>
+		<div class="comment-info">
+			<p>v-bind:title="..."</p>
+			<p>Trong đó "bind" là chỉ thị</p>
+			<p>Khi mở console log thay đổi app2.message="ahihi đồ ngốkc", title của thẻ span sẽ thay đổi ngay lập tức, di chuột hover vào và kiểm tra để kiểm chứng điều này</p>
+		</div>
+		<div class="editor vd2"></div>
+	</div>
+
+	================================3=====================================
+	<h1> Ví dụ 3: điều kiện</h1>
+	<div class="mrl-70">
+		<div class="comment-info">
+			<p>sử dụng điều kiện với cú pháp v-if="..."</p>
+			<p>v-if chấp nhận truyền vào true/false hoặc biểu thức trả về true false</p>
+			<p>Kết quả: ẩn hoặc hiện element dựa vào tương ứng v-if="false" hoặc v-if="true" </p>
+		</div>
+		<div id="app-3">
+			<span v-if="seen">Now you see me</span>
+		</div>
+		<script>
+			var app3 = new Vue({
+				el: '#app-3',
+				data: {
+					seen: true
+				}
+			})
+		</script>
+		<div class="editor vd3"></div>
+	</div>
+
+	================================4=====================================
+	<h1> Ví dụ 4: vòng lặp </h1>
+	<div class="mrl-70">
+		<div class="comment-info">
+			<p>v-for là một vòng lặp, sẽ duyệt 1 mảng hoặc 1 obj tương tự vòng for của các ngôn ngữ khác</p>
+		</div>
+		<div id="app-4">
+			<ol>
+				<li v-for="todo in todos">
+					{{ todo.text }}
+				</li>
+			</ol>
+		</div>
+		<script>
+			var app4 = new Vue({
+				el: '#app-4',
+				data: {
+					todos: [
+						{ text: 'Learn JavaScript' },
+						{ text: 'Learn Vue' },
+						{ text: 'Build something awesome' }
+					]
+				}
+			})
+		</script>
+		<div class="editor vd4"></div>
+		<div class="comment-info">
+			<p>Thử mở console, và gõ: <b>app4.todos.push({ text: 'New item' })</b> bạn sẽ thấy danh sách được cập nhật lại</p>
+		</div>
+	</div>
+
+	================================5=====================================
+	<h1> Ví dụ 5: sự kiện </h1>
+	<div class="mrl-70">
+			<div class="comment-info">
+				<p>Các sự kiện như onclick sẽ tương ứng là v-on:click trong vuejs</p>
+				<p><strong class="notice">Chú ý: </strong> 4 ví dụ ở trên chỉ truy xuất vào data, ở ví dụ này có truy xuất vào 1 function (methods), tham khảo code ở ngay dưới đây:</p>
+				<p>Trong code có v-on:click="..." nhưng khi inspect element lên lại không thấy nữa, là do cơ chế của Vue - Thao tác mà không cần tác động vào DOM, việc thao tác sẽ do Vue tự xử lý</p>
+			</div>
+			<div id="app-5">
+				<p>{{ message }}</p>
+				<button v-on:click="reverseMessage">Reverse Message</button>
+			</div>
+			<script>
+				var app5 = new Vue({
+					el: '#app-5',
+					data: {
+						message: 'Hello Vue.js!'
+					},
+					methods: {
+						reverseMessage: function () {
+							this.message = this.message.split('').reverse().join('')
+						}
+					}
+				})
+			</script>
+			<div class="editor vd5"></div>
+	</div>
+
+
+	================================6=====================================
+	<h1> Ví dụ 6: v-model và cơ chế two way binding </h1>
+	<div class="mrl-70">
+			<div class="comment-info">
+				<p>Two way binding là ràng buộc 2 chiều, giá trị của 1 đối tượng thay đổi ở đây thì ở chỗ khác cũng lập tức được cập nhật lại</p>
+			</div>
+			<div id="app-6">
+				<p>{{ message }}</p>
+				<input v-model="message">
+			</div>
+			<script>
+				var app6 = new Vue({
+					el: '#app-6',
+					data: {
+						message: 'Hello Vue!'
+					}
+				})
+			</script>
+			<div class="editor vd6"></div>
+	</div>
+
+	================================7=====================================
+	<h1> Ví dụ 7: Composing with Components: soạn thảo các thành phần </h1>
+	<div class="mrl-70">
+		<h3>Tạo một component đơn giản</h3>
+		<script>
+			// Define a new component called todo-item
+			Vue.component('todo-item', {
+				template: '<li>This is a todo</li>'
+			})
+		</script>
+		<div class="editor vd7"></div>
+	</div>
+
+	<script src="../lib/ace/js/custom/getting_stated.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
